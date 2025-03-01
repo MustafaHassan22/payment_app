@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:payment_app/core/widgets/custom_button.dart';
-import 'package:payment_app/features/check_out/presentation/views/payment_detials_view.dart';
+import 'package:payment_app/features/check_out/data/repo/check_out_repo_impl.dart';
+import 'package:payment_app/features/check_out/presentation/cubit/cubit/check_out_cubit_cubit.dart';
 import 'package:payment_app/features/check_out/presentation/widgets/order_info_item.dart';
-import 'package:payment_app/features/check_out/presentation/widgets/payment_method_list_view.dart';
+import 'package:payment_app/features/check_out/presentation/widgets/payment_method_bottom_sheat.dart';
 import 'package:payment_app/features/check_out/presentation/widgets/total_into_item.dart';
 
 class MyCartViewBody extends StatelessWidget {
@@ -50,49 +52,19 @@ class MyCartViewBody extends StatelessWidget {
           CustomButton(
             title: 'Complete Payment',
             onTap: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) {
-              //       return const PaymentDetialsView();
-              //     },
-              //   ),
-              // );
-
               showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return PaymentMethodBottomSheat();
+                    return BlocProvider(
+                      create: (context) => PaymentCubit(CheckOutRepoImpl()),
+                      child: const PaymentMethodBottomSheat(),
+                    );
                   });
             },
           ),
           const SizedBox(
             height: 18,
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class PaymentMethodBottomSheat extends StatelessWidget {
-  const PaymentMethodBottomSheat({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(12),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          PaymentMethodsListView(),
-          SizedBox(
-            height: 20,
-          ),
-          CustomButton(title: 'Continue'),
         ],
       ),
     );
