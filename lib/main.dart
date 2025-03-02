@@ -6,6 +6,7 @@ import 'package:payment_app/features/check_out/presentation/views/my_cart_view.d
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey = ApiKeys.publishedKey;
+
   runApp(const MyApp());
 }
 
