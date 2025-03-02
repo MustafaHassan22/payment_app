@@ -22,7 +22,7 @@ class _PaymentDetailsBodyState extends State<PaymentDetailsBody> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const PaymentMethodsListView(),
+                // const PaymentMethodsListView(),
                 CustomCreditCart(
                   formKey: formKey,
                   autovalidateMode: autovalidateMode,

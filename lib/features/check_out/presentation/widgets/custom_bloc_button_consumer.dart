@@ -7,12 +7,15 @@ import 'package:payment_app/features/check_out/data/models/amout_model/amout_mod
 import 'package:payment_app/features/check_out/data/models/amout_model/details.dart';
 import 'package:payment_app/features/check_out/data/models/item_list_model/item.dart';
 import 'package:payment_app/features/check_out/data/models/item_list_model/item_list_model.dart';
+import 'package:payment_app/features/check_out/data/models/paymetn_intent_input_model.dart';
 import 'package:payment_app/features/check_out/presentation/cubit/cubit/check_out_cubit_cubit.dart';
 import 'package:payment_app/features/check_out/presentation/views/thank_you_view.dart';
 
 class CustomBlocButtonConsumer extends StatelessWidget {
+  final int selectedPaymentMethodIndex;
   const CustomBlocButtonConsumer({
     super.key,
+    required this.selectedPaymentMethodIndex,
   });
 
   @override
@@ -34,19 +37,22 @@ class CustomBlocButtonConsumer extends StatelessWidget {
       builder: (context, state) {
         return CustomButton(
           onTap: () {
-            //stripe
+            print("Executing payment for index: $selectedPaymentMethodIndex");
+            if (selectedPaymentMethodIndex == 0) {
+              //stripe
 
-            // PaymetnIntentInputModel paymetnIntentInputModel =
-            //     PaymetnIntentInputModel(
-            //         amount: '100',
-            //         currency: 'USD',
-            //         customerId: 'cus_RrLnRxOkGO7PKF');
-            // BlocProvider.of<PaymentCubit>(context)
-            //     .makePayment(paymentIntentInputModel: paymetnIntentInputModel);
-
-            //paypal
-            var transactionData = getTransactionData();
-            excutePaypalPayment(context, transactionData);
+              PaymetnIntentInputModel paymetnIntentInputModel =
+                  PaymetnIntentInputModel(
+                      amount: '100',
+                      currency: 'USD',
+                      customerId: 'cus_RrLnRxOkGO7PKF');
+              BlocProvider.of<PaymentCubit>(context).makePayment(
+                  paymentIntentInputModel: paymetnIntentInputModel);
+            } else {
+              //paypal
+              var transactionData = getTransactionData();
+              excutePaypalPayment(context, transactionData);
+            }
           },
           isLoading: state is PaymentLoading ? true : false,
           title: 'Continue',
